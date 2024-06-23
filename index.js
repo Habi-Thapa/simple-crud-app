@@ -51,6 +51,19 @@ app.put("/api/product/:id", async (req, res) => {
   }
 });
 
+app.delete("/api/product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.status(200).json({ message: "product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 mongoose
   .connect(
     "mongodb+srv://habithapa:5nreshF9u7YGF3r8@backenddb.8a5smxo.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB"
